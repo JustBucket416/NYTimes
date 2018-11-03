@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NYTimes</string>
+    <string name="title_activity_detail">Детали</string>
+    <string name="loading">Загрузка данных</string>
+    <string name="please_wait">Пожалуйста, подождите</string>
+    <string name="home">Дом</string>
+    <string name="opinion">Мнения</string>
+    <string name="world">Мир</string>
+    <string name="national">Национальное</string>
+    <string name="politics">Политика</string>
+    <string name="upshot">Результат</string>
+    <string name="nyregion">Нью-Йоркский регион</string>
+    <string name="business">Бизнес</string>
+    <string name="technology">Технологии</string>
+    <string name="science">Наука</string>
+    <string name="health">Здоровье</string>
+    <string name="sports">Спорт</string>
+    <string name="arts">Искусство</string>
+    <string name="books">Книги</string>
+    <string name="movies">Фильмы</string>
+    <string name="theater">Театр</string>
+    <string name="sunday_review">Воскресный обзор</string>
+    <string name="fashion">Мода</string>
+    <string name="t_magazine">Т Журнал</string>
+    <string name="food">Еда</string>
+    <string name="travel">Путешествия</string>
+    <string name="magazine">Журналы</string>
+    <string name="real_estate">Недвижимость</string>
+    <string name="automobiles">Автомобили</string>
+    <string name="obituaries">Некрологи</string>
+    <string name="insider">Инсайды</string>
+    <string name="text_error">Данные не загружены. \\nПерезагрузить?</string>
+    <string name="retry">Перезагрузить</string>
+    <string name="about">Об авторе</string>
+    <string name="student">Студент</string>
+    <string name="roman_is_a_student">Роман - студент</string>
+    <string name="enter_a_message">Введите сообщение</string>
+    <string name="send_message">Отправить сообщение</string>
+    <string name="no_app_found">Не найдено приложения дл яотправки электронных сообщений</string>
+    <string name="actionbar_spinner">Выпадающий список</string>
+</resources>
