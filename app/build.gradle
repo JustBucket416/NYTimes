@@ -30,24 +30,37 @@ android {
 dependencies {
     def appDependencies = rootProject.ext.appDependencies
 
+    //support
     implementation appDependencies.appCompat
     implementation appDependencies.design
     implementation appDependencies.cardView
     implementation appDependencies.recyclerView
     implementation appDependencies.constraintLayout
+
+    //Image loading
     implementation appDependencies.glide
     kapt appDependencies.glideCompiler
+
+    //Network
     implementation appDependencies.retrofit
     implementation appDependencies.retrofitGsonConverter
     implementation appDependencies.retrofitRxAdapter
     implementation appDependencies.gson
+
+    //Dagger di
     implementation appDependencies.dagger
     implementation appDependencies.daggerSupport
     kapt appDependencies.daggerProcessor
     kapt appDependencies.daggerCompiler
+
+    //Rx
     implementation appDependencies.rxJava
     implementation appDependencies.rxAndroid
+
+    //Lifecycle
     implementation appDependencies.lifecycle
     kapt appDependencies.lifecycleCompiler
+
+    //Delegate adapter
     implementation appDependencies.delegateRecycler
 }

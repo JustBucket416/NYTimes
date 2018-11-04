@@ -1,12 +1,12 @@
 package android.academy.nytimes.mvp
 
 import android.academy.nytimes.data.NewsItem
-import android.academy.nytimes.utils.Constants
+import android.academy.nytimes.utils.Category
 import io.reactivex.Single
 
 interface RemoteRepository {
 
-    fun getNews(category: Constants.Category): Single<List<NewsItem>>
+    fun getNews(category: Category): Single<List<NewsItem>>
 
-    fun getCategories(): Array<Constants.Category>
+    fun getCategories(): Array<Category>
 }

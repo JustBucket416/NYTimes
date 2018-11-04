@@ -34,7 +34,7 @@ class AboutActivity : AppCompatActivity() {
             if (intent.resolveActivity(packageManager) != null) {
                 startActivity(intent)
             } else {
-                Snackbar.make(layout_about, R.string.aboutactivity_no_app_found, Snackbar.LENGTH_LONG)
+                Snackbar.make(layout_about, R.string.aboutactivity_no_app_found, Snackbar.LENGTH_LONG).show()
             }
         }
 

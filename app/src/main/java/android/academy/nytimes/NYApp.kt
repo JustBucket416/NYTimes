@@ -7,7 +7,10 @@ import android.util.Log
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
+import java.io.IOException
+import java.net.SocketException
 import javax.inject.Inject
 
 class NYApp : Application(), HasActivityInjector {
@@ -31,7 +34,24 @@ class NYApp : Application(), HasActivityInjector {
                 .build()
                 .inject(this)
 
-        RxJavaPlugins.setErrorHandler { Log.wtf(TAG, it.message) }
+        RxJavaPlugins.setErrorHandler {
+            val throwable = if (it is UndeliverableException) it.cause else it
+            when {
+                (throwable is IOException || throwable is SocketException) -> {
+                    return@setErrorHandler
+                }
+                throwable is InterruptedException -> return@setErrorHandler
+                (throwable is NullPointerException || throwable is IllegalArgumentException) -> {
+                    Thread.currentThread().uncaughtExceptionHandler.uncaughtException(Thread.currentThread(), throwable)
+                    return@setErrorHandler
+                }
+                throwable is IllegalStateException -> {
+                    Thread.currentThread().uncaughtExceptionHandler.uncaughtException(Thread.currentThread(), throwable)
+                    return@setErrorHandler
+                }
+                else -> Log.w(TAG, throwable)
+            }
+        }
     }
 }
 

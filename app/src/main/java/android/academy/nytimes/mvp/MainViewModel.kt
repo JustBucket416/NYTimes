@@ -2,7 +2,7 @@ package android.academy.nytimes.mvp
 
 import android.academy.nytimes.data.NewsItem
 import android.academy.nytimes.state.Resource
-import android.academy.nytimes.utils.Constants
+import android.academy.nytimes.utils.Category
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
@@ -13,10 +13,10 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val model: Model) : ViewModel() {
 
     private val liveData = MutableLiveData<Resource<List<NewsItem>>>()
-    private var category: Constants.Category? = null
+    private var category: Category? = null
 
     @SuppressLint("CheckResult")
-    fun fetchNews(category: Constants.Category) {
+    fun fetchNews(category: Category) {
         if (this.category == category) return
         liveData.postValue(Resource.loading())
         model.loadNews(category)
