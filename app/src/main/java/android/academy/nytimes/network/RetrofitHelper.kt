@@ -3,27 +3,24 @@ package android.academy.nytimes.network
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
 class RetrofitHelper private constructor(private val url: String,
-                                         private val token: String) : Interceptor {
+                                         private val interceptor: Interceptor) {
 
     companion object {
-        private const val REQUEST_HEADER = "api-key"
         @Volatile
         private var INSTANCE: RetrofitHelper? = null
 
-        fun getInstance(url: String, token: String): RetrofitHelper {
+        fun getInstance(url: String, interceptor: Interceptor): RetrofitHelper {
             var localInstance = INSTANCE
             if (localInstance == null) {
                 synchronized(RetrofitHelper::class.java) {
                     localInstance = INSTANCE
                     if (localInstance == null) {
-                        INSTANCE = RetrofitHelper(url, token)
+                        INSTANCE = RetrofitHelper(url, interceptor)
                         localInstance = INSTANCE
                     }
                 }
@@ -32,29 +29,23 @@ class RetrofitHelper private constructor(private val url: String,
         }
     }
 
-    fun getNyTimesApi(): NYTimesApi {
-        val gson = GsonBuilder()
-                .setLenient()
-                .serializeNulls()
-                .create()
+    fun getNyTimesApi(): NYTimesApi = with(Retrofit.Builder()) {
+        baseUrl(url)
+        addConverterFactory(GsonConverterFactory.create(createGson()))
+        addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        client(createOkHttpClient())
+        build()
+    }.create(NYTimesApi::class.java)
 
-        val client = OkHttpClient.Builder()
-                .addInterceptor(this)
-                .build()
 
-        return Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(client)
-                .build()
-                .create(NYTimesApi::class.java)
+    private fun createGson() = with(GsonBuilder()) {
+        setLenient()
+        serializeNulls()
+        create()
     }
 
-    @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val original = chain.request()
-        val request = original.newBuilder().addHeader(REQUEST_HEADER, token).build()
-        return chain.proceed(request)
+    private fun createOkHttpClient() = with(OkHttpClient.Builder()) {
+        addInterceptor(interceptor)
+        build()
     }
 }

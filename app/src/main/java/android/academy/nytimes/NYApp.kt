@@ -3,12 +3,18 @@ package android.academy.nytimes
 import android.academy.nytimes.di.DaggerApplicationComponent
 import android.app.Activity
 import android.app.Application
+import android.util.Log
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import io.reactivex.plugins.RxJavaPlugins
 import javax.inject.Inject
 
 class NYApp : Application(), HasActivityInjector {
+
+    companion object {
+        private const val TAG = "NYTimes"
+    }
 
     @Inject
     lateinit var androidActivityInjector: DispatchingAndroidInjector<Activity>
@@ -22,9 +28,10 @@ class NYApp : Application(), HasActivityInjector {
 
         DaggerApplicationComponent
                 .builder()
-                .appContext(this)
                 .build()
                 .inject(this)
+
+        RxJavaPlugins.setErrorHandler { Log.wtf(TAG, it.message) }
     }
 }
 

@@ -14,11 +14,10 @@ class DetailActivity : AppCompatActivity() {
     companion object {
         private const val URL_KEY = "url-key"
 
-        fun newIntent(context: Context, url: String): Intent {
-            val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(URL_KEY, url)
-            return intent
-        }
+        fun newIntent(context: Context, url: String) =
+                Intent(context, DetailActivity::class.java).apply {
+                    putExtra(URL_KEY, url)
+                }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -29,13 +28,14 @@ class DetailActivity : AppCompatActivity() {
         val url = intent.getStringExtra(URL_KEY) ?: return
 
         webView.webViewClient = WebClient()
-        val set = webView.settings
-        set.javaScriptEnabled = true
-        set.builtInZoomControls = true
+        webView.settings.run {
+            javaScriptEnabled = true
+            builtInZoomControls = true
+        }
         webView.loadUrl(url)
     }
 
-    private inner class WebClient : WebViewClient() {
+    private class WebClient : WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
             view.loadUrl(url)
             return true

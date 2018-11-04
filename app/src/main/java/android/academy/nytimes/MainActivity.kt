@@ -7,9 +7,9 @@ import android.academy.nytimes.recycler.CategorizedNewsDelegateAdapter
 import android.academy.nytimes.recycler.UncategorizedNewsDelegateAdapter
 import android.academy.nytimes.state.Resource
 import android.academy.nytimes.state.ResourceState
+import android.academy.nytimes.utils.isHorizontalOrientation
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -28,11 +28,14 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mainViewModel: MainViewModel
+    companion object {
+        private const val PORTRAIT_SPAN_COUNT = 1
+        private const val LANDSCAPE_SPAN_COUNT = 2
+    }
 
     @Inject
     lateinit var factory: ViewModelFactory
-
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: CompositeDelegateAdapter<NewsItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,11 +44,13 @@ class MainActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
 
         mainViewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
-        mainViewModel.getData().observe(this, Observer { handleNewsDataState(it) })
+        mainViewModel.getData().observe(this, Observer { resource ->
+            resource?.let { handleNewsDataState(it) }
+        })
 
         recyclerView.layoutManager = GridLayoutManager(this,
-                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) 2
-                else 1
+                if (isHorizontalOrientation()) LANDSCAPE_SPAN_COUNT
+                else PORTRAIT_SPAN_COUNT
         )
 
         recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -74,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         val spinner = menuItem.actionView as Spinner
 
         val adapter = ArrayAdapter(this,
-                android.R.layout.simple_spinner_dropdown_item, mainViewModel.loadCategories())
+                android.R.layout.simple_spinner_dropdown_item, mainViewModel.loadCategories().map { getString(it.nameResId) })
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -98,8 +103,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(DetailActivity.newIntent(this, url))
     }
 
-    private fun handleNewsDataState(resource: Resource<List<NewsItem>>?) {
-        if (resource == null) return
+    private fun handleNewsDataState(resource: Resource<List<NewsItem>>) {
         when (resource.status) {
             ResourceState.LOADING -> showLoading()
             ResourceState.SUCCESS -> showItems(resource.data)
@@ -108,23 +112,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showItems(items: List<NewsItem>?) {
-        loading_group.visibility = View.GONE
+        loadingGroup.visibility = View.GONE
         if (items?.isNotEmpty() == true) {
-            error_group.visibility = View.GONE
+            errorGroup.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
             adapter.swapData(items)
-        } else error_group.visibility = View.VISIBLE
+        } else {
+            errorGroup.visibility = View.VISIBLE
+        }
     }
 
     private fun showError() {
-        loading_group.visibility = View.GONE
+        loadingGroup.visibility = View.GONE
         recyclerView.visibility = View.GONE
-        error_group.visibility = View.VISIBLE
+        errorGroup.visibility = View.VISIBLE
     }
 
     private fun showLoading() {
         recyclerView.visibility = View.GONE
-        error_group.visibility = View.GONE
-        loading_group.visibility = View.VISIBLE
+        errorGroup.visibility = View.GONE
+        loadingGroup.visibility = View.VISIBLE
     }
 }

@@ -1,24 +1,30 @@
 package android.academy.nytimes.di
 
-import android.academy.nytimes.constants.ConstantsHolder
 import android.academy.nytimes.mvp.RemoteRepository
 import android.academy.nytimes.network.NYTimesApi
+import android.academy.nytimes.network.NyTimesInterceptor
 import android.academy.nytimes.network.RemoteRepositoryImpl
 import android.academy.nytimes.network.RetrofitHelper
-import android.content.Context
+import android.academy.nytimes.utils.Constants
 import dagger.Module
 import dagger.Provides
+import okhttp3.Interceptor
 
 @Module
 class AppModule {
 
     @Provides
-    fun provideNYTimesApi(): NYTimesApi {
-        return RetrofitHelper.getInstance(ConstantsHolder.BASE_URL, ConstantsHolder.TOKEN).getNyTimesApi()
+    fun provideInterceptor(): Interceptor {
+        return NyTimesInterceptor(Constants.TOKEN)
     }
 
     @Provides
-    fun provideRemoteRepository(nyTimesApi: NYTimesApi, context: Context): RemoteRepository {
-        return RemoteRepositoryImpl(nyTimesApi, ConstantsHolder.getCategories(context))
+    fun provideNYTimesApi(interceptor: Interceptor): NYTimesApi {
+        return RetrofitHelper.getInstance(Constants.BASE_URL, interceptor).getNyTimesApi()
+    }
+
+    @Provides
+    fun provideRemoteRepository(nyTimesApi: NYTimesApi): RemoteRepository {
+        return RemoteRepositoryImpl(nyTimesApi)
     }
 }

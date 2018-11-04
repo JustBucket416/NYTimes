@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/please_wait"
+        android:text="@string/mainactivity_please_wait"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +46,7 @@
         android:id="@+id/textError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_error"
+        android:text="@string/mainactivity_text_error"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonRetry"
@@ -59,7 +59,7 @@
         android:id="@+id/buttonRetry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/retry"
+        android:text="@string/mainactivity_retry"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/textError"
         app:layout_constraintEnd_toStartOf="@+id/recyclerView"
@@ -68,14 +68,13 @@
         app:layout_constraintTop_toTopOf="@+id/textError" />
 
     <android.support.constraint.Group
-        android:id="@+id/loading_group"
+        android:id="@+id/loadingGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
         app:constraint_referenced_ids="progressBar,textLoading" />
 
     <android.support.constraint.Group
-        android:id="@+id/error_group"
+        android:id="@+id/errorGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
