@@ -1,7 +1,7 @@
 package android.academy.nytimes.recycler
 
 import android.academy.nytimes.R
-import android.academy.nytimes.data.NewsItem
+import android.academy.nytimes.data.CategorizedNewsItem
 import android.view.View
 import com.bumptech.glide.Glide
 import com.example.delegateadapter.delegate.BaseDelegateAdapter
@@ -10,13 +10,13 @@ import kotlinx.android.synthetic.main.recycler_item.view.*
 import java.text.SimpleDateFormat
 
 class CategorizedNewsDelegateAdapter(private val onClick: (String) -> Unit)
-    : BaseDelegateAdapter<BaseViewHolder, NewsItem>() {
+    : BaseDelegateAdapter<BaseViewHolder, CategorizedNewsItem>() {
 
     override fun getLayoutId() = R.layout.recycler_item
 
-    override fun isForViewType(items: MutableList<*>, index: Int) = (items[index] as NewsItem).category != null
+    override fun isForViewType(items: MutableList<*>, index: Int) = items[index] is CategorizedNewsItem
 
-    override fun onBindViewHolder(view: View, item: NewsItem, holder: BaseViewHolder) = with(holder.itemView) {
+    override fun onBindViewHolder(view: View, item: CategorizedNewsItem, holder: BaseViewHolder) = with(holder.itemView) {
         if (item.imageUrl != null)
             Glide.with(imageView.context)
                     .load(item.imageUrl)

@@ -1,3 +1,3 @@
 package android.academy.nytimes.utils
 
-fun String.Companion.empty() = ""
+fun String.Companion.EMPTY() = ""

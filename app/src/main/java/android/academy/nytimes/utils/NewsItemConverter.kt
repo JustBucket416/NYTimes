@@ -1,7 +1,10 @@
 package android.academy.nytimes.utils
 
+import android.academy.nytimes.data.CategorizedNewsItem
 import android.academy.nytimes.data.NewsItem
+import android.academy.nytimes.data.UncategorizedNewsItem
 import android.academy.nytimes.network.model.Result
+import android.annotation.SuppressLint
 import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -11,24 +14,30 @@ import javax.inject.Inject
 class NewsItemConverter @Inject constructor() {
 
     companion object {
+        @SuppressLint("SimpleDateFormat")
         private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd")
         private const val TAG = "data parse"
-        private const val CAUSE = "Bad server response"
     }
 
     fun convertToNewsItem(result: Result): NewsItem =
             with(result) {
-                if (title == null
-                        || publishedDate == null
-                        || abstract == null
-                        || url == null) throw IllegalArgumentException(CAUSE)
-                return NewsItem(
-                        title,
-                        if (multimedia?.isNotEmpty() == true) multimedia[0].url else String.empty(),
-                        subsection,
-                        getDateFromString(publishedDate.substring(0, publishedDate.indexOf('T'))),
-                        abstract,
-                        url
+                val dateString = result.publishedDate.getOrDie("date")
+                if (result.subsection == null) {
+                    return@with UncategorizedNewsItem(
+                            title = result.title.getOrDie("title"),
+                            imageUrl = result.multimedia?.getOrNull(0)?.url,
+                            publishDate = getDateFromString(dateString),
+                            previewText = result.abstract.getOrDie("preview text"),
+                            url = result.url.getOrDie("url")
+                    )
+                }
+                return@with CategorizedNewsItem(
+                        title = result.title.getOrDie("title"),
+                        imageUrl = result.multimedia?.getOrNull(0)?.url,
+                        publishDate = getDateFromString(dateString),
+                        previewText = result.abstract.getOrDie("preview text"),
+                        url = result.url.getOrDie("url"),
+                        category = result.subsection.getOrDie("category")
                 )
             }
 
