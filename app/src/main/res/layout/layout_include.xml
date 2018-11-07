@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/include_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/textOccupation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_occupation_left"
+        android:layout_marginEnd="@dimen/margin_default"
+        android:drawableStart="@drawable/ic_business_center_black_24dp"
+        android:text="@string/aboutactivity_student"
+        android:textSize="@dimen/text_size" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textOccupation"
+        android:layout_above="@id/textMessage">
+
+        <TextView
+            android:id="@+id/textAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            android:text="@string/aboutactivity_occupation" />
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/textMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/buttonEmail"
+        android:layout_margin="@dimen/margin_default"
+        android:ems="10"
+        android:hint="@string/aboutactivity_enter_message"
+        android:inputType="textPersonName"
+        android:textSize="@dimen/text_size" />
+
+    <Button
+        android:id="@+id/buttonEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/margin_default"
+        android:text="@string/aboutactivity_send_message" />
+
+</RelativeLayout>

@@ -5,4 +5,9 @@
     <dimen name="title_end_margin">64dp</dimen>
     <dimen name="title_start_margin">48dp</dimen>
     <dimen name="toolbar_image_height_small">200dp</dimen>
+    <dimen name="recycler_item_offset">4dp</dimen>
+    <dimen name="margin_default">16dp</dimen>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="image_size">200dp</dimen>
+    <dimen name="margin_occupation_left">50dp</dimen>
 </resources>

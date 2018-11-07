@@ -1,0 +1,55 @@
+ext {
+    //Android
+    androidBuildToolsVersion = '28.0.2'
+    androidMinSdkVersion = 21
+    androidTargetSdkVersion = 28
+    androidCompileSdkVersion = 28
+
+    supportLibraryVersion = '28.0.0'
+    constraintLayoutVersion = '1.1.3'
+
+    //Libraries
+    glideVesrion = '4.8.0'
+    retrofitVersion = '2.4.0'
+    retrofitRxAdapterVersion = '2.3.0'
+    gsonVersion = '2.0.5'
+    daggerVersion = '2.19'
+    rxJavaVersion = '2.2.0'
+    rxJavaAndroidVersion = '2.1.0'
+    lifecycleVersion = '1.1.1'
+    delegateRecyclerVersion = 'v2.01'
+
+    //Tests
+    junitVersion = '4.12'
+    testRunnerVersion = '1.0.2'
+    espressoVersion = '3.0.2'
+
+    appDependencies = [
+            appCompat            : "com.android.support:appcompat-v7:$supportLibraryVersion",
+            design               : "com.android.support:design:$supportLibraryVersion",
+            cardView             : "com.android.support:cardview-v7:$supportLibraryVersion",
+            recyclerView         : "com.android.support:recyclerview-v7:$supportLibraryVersion",
+            constraintLayout     : "com.android.support.constraint:constraint-layout:$constraintLayoutVersion",
+            glide                : "com.github.bumptech.glide:glide:$glideVesrion",
+            glideCompiler        : "com.github.bumptech.glide:compiler:$glideVesrion",
+            retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitGsonConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            retrofitRxAdapter    : "com.squareup.retrofit2:adapter-rxjava2:$retrofitRxAdapterVersion",
+            gson                 : "com.google.code.gson:gson:$gsonVersion",
+            dagger               : "com.google.dagger:dagger-android:$daggerVersion",
+            daggerSupport        : "com.google.dagger:dagger-android-support:$daggerVersion",
+            daggerProcessor      : "com.google.dagger:dagger-android-processor:$daggerVersion",
+            daggerCompiler       : "com.google.dagger:dagger-compiler:$daggerVersion",
+            rxJava               : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            rxAndroid            : "io.reactivex.rxjava2:rxandroid:$rxJavaAndroidVersion",
+            lifecycle            : "android.arch.lifecycle:extensions:$lifecycleVersion",
+            lifecycleCompiler    : "android.arch.lifecycle:compiler:$lifecycleVersion",
+            delegateRecycler     : "com.github.liverm0r:delegateadapters:$delegateRecyclerVersion"
+    ]
+
+    appTestDependencies = [
+            junit     : "junit:junit:$junitVersion",
+            testRunner: "com.android.support.test:runner:$testRunnerVersion",
+            espresso  : "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    ]
+}
