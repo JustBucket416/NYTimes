@@ -21,24 +21,26 @@ class NewsItemConverter @Inject constructor() {
 
     fun convertToNewsItem(result: Result): NewsItem =
             with(result) {
-                val dateString = result.publishedDate.getOrDie("date")
-                if (result.subsection == null) {
-                    return@with UncategorizedNewsItem(
-                            title = result.title.getOrDie("title"),
-                            imageUrl = result.multimedia?.getOrNull(0)?.url,
+                val dateString = publishedDate.getOrDie("date")
+                val item = if (subsection == null) {
+                    UncategorizedNewsItem(
+                            title = title.getOrDie("title"),
+                            imageUrl = multimedia?.getOrNull(0)?.url,
                             publishDate = getDateFromString(dateString),
-                            previewText = result.abstract.getOrDie("preview text"),
-                            url = result.url.getOrDie("url")
+                            previewText = abstract.getOrDie("preview text"),
+                            url = url.getOrDie("url")
+                    )
+                } else {
+                    CategorizedNewsItem(
+                            title = title.getOrDie("title"),
+                            imageUrl = multimedia?.getOrNull(0)?.url,
+                            publishDate = getDateFromString(dateString),
+                            previewText = abstract.getOrDie("preview text"),
+                            url = url.getOrDie("url"),
+                            category = subsection.getOrDie("category")
                     )
                 }
-                return@with CategorizedNewsItem(
-                        title = result.title.getOrDie("title"),
-                        imageUrl = result.multimedia?.getOrNull(0)?.url,
-                        publishDate = getDateFromString(dateString),
-                        previewText = result.abstract.getOrDie("preview text"),
-                        url = result.url.getOrDie("url"),
-                        category = result.subsection.getOrDie("category")
-                )
+                item
             }
 
 

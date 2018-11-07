@@ -6,7 +6,7 @@ sealed class NewsItem
 
 data class CategorizedNewsItem(val title: String,
                                val imageUrl: String?,
-                               val category: String?,
+                               val category: String,
                                val publishDate: Date,
                                val previewText: String,
                                val url: String) : NewsItem()
