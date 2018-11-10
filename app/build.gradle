@@ -30,6 +30,8 @@ android {
 dependencies {
     def appDependencies = rootProject.ext.appDependencies
 
+    implementation appDependencies.kotlin
+
     //support
     implementation appDependencies.appCompat
     implementation appDependencies.design
@@ -61,6 +63,14 @@ dependencies {
     implementation appDependencies.lifecycle
     kapt appDependencies.lifecycleCompiler
 
+    //Room DB
+    implementation appDependencies.room
+    implementation appDependencies.roomRX
+    kapt appDependencies.roomCompiler
+
     //Delegate adapter
     implementation appDependencies.delegateRecycler
+}
+repositories {
+    mavenCentral()
 }
